@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Andha Laundry</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
@@ -44,7 +50,7 @@ body {
   font-family: var(--f-body); font-size: 16px; line-height: 1.6;
 }
 body::before {
-  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  content: ""; position: fixed; top: 0; left: 0; right: 0; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
   z-index: 30; background: var(--surface);
 }
 h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
@@ -106,11 +112,11 @@ a { color: inherit; }
 }
 /* gelembung interaktif (canvas), mesin cuci bergerak, kemunculan hero */
 html { scroll-padding-top: 72px; }
-.bubble-field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
+.bubble-field { position: absolute; top: 0; left: 0; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
 .hero .wrap, .hero .wave { position: relative; z-index: 1; }
 .art { animation: bob 8s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-5px); } }
-.spin { transform-origin: 180px 222px; animation: spin 12s linear infinite; }
+.spin { transform-box: view-box; transform-origin: 180px 222px; animation: spin 12s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero h1, .hero .lead, .hero .actions { animation: up 1s cubic-bezier(.25,.6,.3,1) backwards; }
 .hero .lead { animation-delay: .08s; }
@@ -177,7 +183,7 @@ html { scroll-padding-top: 72px; }
 .info dl { margin: 0; display: grid; gap: 16px; }
 .info dt { font-size: .82rem; color: rgba(255,255,255,.72); font-weight: 500; }
 .info dd { margin: 2px 0 0; font-weight: 700; overflow-wrap: anywhere; }
-.info .num { font-family: var(--f-display); font-size: 1.7rem; font-weight: 800; letter-spacing: .01em; user-select: all; }
+.info .num { font-family: var(--f-display); font-size: 1.7rem; font-weight: 800; letter-spacing: .01em; -webkit-user-select: all; user-select: all; }
 .copy { background: rgba(255,255,255,.14); color: var(--on-hero); border: 1.5px solid rgba(255,255,255,.4); }
 
 footer { padding-top: 8px; padding-bottom: 104px; color: var(--muted); font-size: .9rem; }
@@ -217,6 +223,8 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
 }
 </style>
 
+</head>
+<body>
 <header class="top">
   <span class="prog" id="prog" aria-hidden="true"></span>
   <div class="wrap">
@@ -639,3 +647,5 @@ copyBtn.addEventListener('click', function () {
   set();
 })();
 </script>
+</body>
+</html>
