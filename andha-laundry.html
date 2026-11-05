@@ -1,0 +1,641 @@
+<title>Andha Laundry</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: hero biru penuh dengan mesin cuci, gelombang ke halaman putih; konten rata kiri, satu kolom di HP.
+   Warna: biru tua + biru laut + aqua dari banner, hijau WhatsApp hanya untuk tombol pesan. */
+:root {
+  --bg: #F2F8FF;
+  --surface: #FFFFFF;
+  --fg: #0A2540;
+  --muted: #4A6280;
+  --brand: #0B4FBF;
+  --brand-ink: #FFFFFF;
+  --aqua: #35BDEB;
+  --soft: #E3F0FF;
+  --line: #D3E3F7;
+  --wa: #15803D;
+  --wa-ink: #FFFFFF;
+  --hero-a: #0A3A94;
+  --hero-b: #0B63D6;
+  --on-hero: #FFFFFF;
+  --f-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #061225; --surface: #0C2040; --fg: #E7F0FF; --muted: #9BB2D2;
+    --brand: #6AA6FF; --brand-ink: #04142E; --aqua: #4FD0F5; --soft: #0F2A52; --line: #1B3760;
+    --wa: #3DD16F; --wa-ink: #042313; --hero-a: #07245F; --hero-b: #0A4DB0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #061225; --surface: #0C2040; --fg: #E7F0FF; --muted: #9BB2D2;
+  --brand: #6AA6FF; --brand-ink: #04142E; --aqua: #4FD0F5; --soft: #0F2A52; --line: #1B3760;
+  --wa: #3DD16F; --wa-ink: #042313; --hero-a: #07245F; --hero-b: #0A4DB0;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--surface);
+}
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--aqua); outline-offset: 3px; }
+
+.wrap {
+  max-width: 1080px; margin-left: auto; margin-right: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.band { padding-block: 56px; }
+
+/* header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; line-height: 1; }
+.logo svg { width: 30px; height: 30px; flex: none; }
+.logo b { color: var(--brand); font-weight: 800; }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; cursor: pointer;
+  font-family: var(--f-body); font-size: 1rem; font-weight: 700; text-decoration: none; text-align: center;
+  transition: filter .15s, transform .15s;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-wa { background: var(--wa); color: var(--wa-ink); }
+.btn-ghost { background: transparent; color: var(--on-hero); border: 1.5px solid rgba(255,255,255,.55); }
+.btn-small { min-height: 40px; padding: 0 16px; font-size: .9rem; }
+.prog {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; transform: scaleX(0); transform-origin: left;
+  background: linear-gradient(90deg, var(--aqua), var(--brand));
+}
+.ico { transition: transform .35s ease; }
+@media (hover: hover) { .feat li:hover .ico { transform: translateY(-3px); } }
+
+/* hero */
+.hero { background: linear-gradient(160deg, var(--hero-a), var(--hero-b)); color: var(--on-hero); position: relative; overflow: hidden; padding-top: 44px; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px 40px; align-items: center; }
+.hero h1 { font-size: clamp(2.1rem, 6.4vw, 3.5rem); font-weight: 800; line-height: 1.04; letter-spacing: -0.025em; }
+.hero p.lead { margin-top: 18px; font-size: 1.08rem; max-width: 46ch; color: rgba(255,255,255,.88); }
+.hero .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+.art { position: relative; width: min(100%, 340px); justify-self: center; padding-bottom: 8px; }
+.art svg.machine { display: block; width: 100%; height: auto; }
+.badge {
+  position: absolute; top: -6px; right: -6px; width: 92px; height: 92px; border-radius: 50%;
+  display: grid; place-items: center; text-align: center; padding: 10px;
+  background: #06255F; color: #fff; border: 3px solid #fff;
+  font-family: var(--f-display); font-weight: 800; font-size: .8rem; line-height: 1.15;
+  transform: rotate(8deg);
+}
+/* gelembung interaktif (canvas), mesin cuci bergerak, kemunculan hero */
+html { scroll-padding-top: 72px; }
+.bubble-field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
+.hero .wrap, .hero .wave { position: relative; z-index: 1; }
+.art { animation: bob 8s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+.spin { transform-origin: 180px 222px; animation: spin 12s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero h1, .hero .lead, .hero .actions { animation: up 1s cubic-bezier(.25,.6,.3,1) backwards; }
+.hero .lead { animation-delay: .08s; }
+.hero .actions { animation-delay: .16s; }
+@keyframes up { from { opacity: 0; transform: translateY(8px); } }
+.tip { flex-basis: 100%; margin: 6px 0 0; font-size: .88rem; color: rgba(255,255,255,.78); max-width: 44ch; transition: opacity .5s; }
+.tip.gone { opacity: 0; }
+.wave { display: block; width: 100%; height: 44px; margin-top: 28px; }
+.wave path { fill: var(--bg); }
+.slosh { animation: slosh 4.5s linear infinite; }
+@keyframes slosh { to { transform: translateX(-60px); } }
+
+/* section heads */
+.head h2 { font-size: clamp(1.55rem, 4.4vw, 2.2rem); font-weight: 800; line-height: 1.12; }
+.head p { margin-top: 10px; color: var(--muted); max-width: 58ch; }
+
+/* keunggulan */
+.feat { margin-top: 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; list-style: none; padding: 0; }
+.feat li { border-top: 2px solid var(--line); padding-top: 18px; min-width: 0; }
+.ico { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--soft); color: var(--brand); }
+.ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.feat h3 { margin-top: 14px; font-size: 1.08rem; font-weight: 700; }
+.feat p { margin-top: 6px; color: var(--muted); font-size: .94rem; }
+
+/* layanan */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+.svc { margin-top: 28px; padding: 4px 22px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row h3 { font-size: 1.1rem; font-weight: 700; }
+.row p { color: var(--muted); font-size: .92rem; margin-top: 2px; }
+.price { font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.price small { font-family: var(--f-body); font-weight: 500; font-size: .85rem; color: var(--muted); }
+.ask { font-size: .9rem; font-weight: 700; text-decoration: none; color: var(--brand); background: var(--soft); border-radius: 999px; padding: 8px 14px; white-space: nowrap; }
+.ask:hover { filter: brightness(.96); }
+
+/* cara kerja */
+.steps { margin-top: 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; list-style: none; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; min-width: 0; }
+.steps li::before {
+  content: counter(s); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--brand); color: var(--brand-ink); font-family: var(--f-display); font-weight: 800; font-size: 1.1rem;
+}
+.steps h3 { margin-top: 14px; font-size: 1.08rem; font-weight: 700; }
+.steps p { margin-top: 4px; color: var(--muted); font-size: .94rem; }
+
+/* pesan */
+.order { margin-top: 28px; display: grid; grid-template-columns: 1.25fr .75fr; gap: 24px; align-items: start; }
+.form { padding: 24px; display: grid; gap: 16px; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-weight: 700; font-size: .92rem; }
+.field input, .field select, .field textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--fg); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; min-height: 48px;
+}
+.field textarea { resize: vertical; min-height: 84px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid var(--aqua); outline-offset: 1px; border-color: var(--brand); }
+.hint { color: var(--muted); font-size: .88rem; }
+.err { color: #B42318; font-weight: 600; font-size: .92rem; }
+:root[data-theme="dark"] .err { color: #FF9C8F; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .err { color: #FF9C8F; } }
+
+.info { background: linear-gradient(160deg, var(--hero-a), var(--hero-b)); color: var(--on-hero); border-radius: 18px; padding: 24px; display: grid; gap: 18px; }
+.info dl { margin: 0; display: grid; gap: 16px; }
+.info dt { font-size: .82rem; color: rgba(255,255,255,.72); font-weight: 500; }
+.info dd { margin: 2px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.info .num { font-family: var(--f-display); font-size: 1.7rem; font-weight: 800; letter-spacing: .01em; user-select: all; }
+.copy { background: rgba(255,255,255,.14); color: var(--on-hero); border: 1.5px solid rgba(255,255,255,.4); }
+
+footer { padding-top: 8px; padding-bottom: 104px; color: var(--muted); font-size: .9rem; }
+footer .wrap { border-top: 1px solid var(--line); padding-top: 20px; }
+
+/* tombol melayang */
+.float {
+  position: fixed; z-index: 25;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 8px 24px rgba(6, 30, 80, .35);
+}
+
+@media (max-width: 900px) {
+  .feat { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 820px) {
+  .order { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .art { justify-self: start; margin-top: 8px; }
+  .band { padding-block: 44px; }
+}
+@media (max-width: 420px) {
+  .top .btn-small { padding: 0 12px; }
+  .logo { font-size: 1.12rem; }
+  .form { padding: 18px; }
+  .svc { padding: 2px 16px; }
+  .row { grid-template-columns: 1fr; }
+  .row .ask { justify-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .bub { opacity: .6; }
+}
+</style>
+
+<header class="top">
+  <span class="prog" id="prog" aria-hidden="true"></span>
+  <div class="wrap">
+    <a class="logo" href="#atas" aria-label="Andha Laundry, ke atas">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 2.5C16 2.5 6 13 6 19.5a10 10 0 0 0 20 0C26 13 16 2.5 16 2.5z" fill="#0B63D6"/>
+        <path d="M11 20a5 5 0 0 0 4 4.9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="22.5" cy="8" r="2.4" fill="none" stroke="#35BDEB" stroke-width="1.6"/>
+      </svg>
+      <span><b>Andha</b> Laundry</span>
+    </a>
+    
+  </div>
+</header>
+
+<main id="atas">
+  <section class="hero">
+    <canvas id="bubbles" class="bubble-field" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h1>Cucian bersih, rapi, harum. Dijemput sampai depan rumah.</h1>
+          <p class="lead">Cuci kiloan dengan mesin modern dan pewangi berkualitas. Harga sesuai berat, hasil dilipat rapi, lalu kami antar kembali ke rumah Anda.</p>
+          <div class="actions">
+            <a class="btn btn-wa" id="hero-wa" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>
+              Pesan lewat WhatsApp
+            </a>
+            <a class="btn btn-ghost" href="#layanan">Lihat layanan</a>
+            <p class="tip" id="tip">Tap gelembungnya untuk memecahkan.</p>
+          </div>
+        </div>
+
+        <div class="art" aria-hidden="true">
+          <svg class="machine" viewBox="0 0 360 380">
+            <defs>
+              <clipPath id="drum"><circle cx="180" cy="222" r="80"/></clipPath>
+              <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0A2F7A"/><stop offset="1" stop-color="#061E57"/>
+              </linearGradient>
+            </defs>
+            <rect x="30" y="24" width="300" height="334" rx="30" fill="#F4F9FF"/>
+            <rect x="30" y="24" width="300" height="70" rx="30" fill="#E2EEFC"/>
+            <rect x="30" y="64" width="300" height="30" fill="#E2EEFC"/>
+            <rect x="52" y="48" width="92" height="22" rx="11" fill="#C5DBF5"/>
+            <circle cx="236" cy="59" r="13" fill="#FFFFFF" stroke="#B3CDEE" stroke-width="3"/>
+            <circle cx="288" cy="59" r="7" fill="#35BDEB"/>
+            <circle cx="180" cy="222" r="104" fill="#C9DDF6"/>
+            <circle cx="180" cy="222" r="92" fill="#FFFFFF"/>
+            <circle cx="180" cy="222" r="80" fill="url(#glass)"/>
+            <g clip-path="url(#drum)">
+              <g class="spin">
+                <ellipse cx="150" cy="215" rx="26" ry="14" fill="#FFFFFF" opacity=".9" transform="rotate(-25 150 215)"/>
+                <ellipse cx="212" cy="236" rx="24" ry="13" fill="#9CC7F5" transform="rotate(30 212 236)"/>
+                <ellipse cx="186" cy="188" rx="20" ry="12" fill="#35BDEB" opacity=".85" transform="rotate(10 186 188)"/>
+                <ellipse cx="168" cy="258" rx="18" ry="10" fill="#E8F3FF" opacity=".9"/>
+              </g>
+              <g class="slosh">
+                <path d="M40 232 q15 -14 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 V330 H40 Z" fill="#35BDEB" opacity=".6"/>
+              </g>
+              <circle cx="150" cy="258" r="7" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>
+              <circle cx="196" cy="270" r="5" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>
+              <circle cx="214" cy="248" r="9" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/>
+              <path d="M128 190 q22 -24 56 -18" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+            </g>
+            <rect x="52" y="334" width="40" height="8" rx="4" fill="#C5DBF5"/>
+            <rect x="268" y="334" width="40" height="8" rx="4" fill="#C5DBF5"/>
+          </svg>
+          <div class="badge">Rapi<br>Bersih<br>Wangi</div>
+                                                </div>
+      </div>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 C 240 50 480 0 720 20 S 1200 44 1440 14 V44 H0 Z"/></svg>
+  </section>
+
+  <section class="band" id="keunggulan">
+    <div class="wrap">
+      <div class="head">
+        <h2>Yang kami jaga di setiap cucian</h2>
+      </div>
+      <ul class="feat">
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M6 21h12M5 7h14M5 7l-3 7a3 3 0 0 0 6 0L5 7zM19 7l-3 7a3 3 0 0 0 6 0l-3-7z"/></svg></div>
+          <h3>Harga terjangkau</h3>
+          <p>Dihitung sesuai berat cucian, jadi Anda hanya membayar yang dicuci.</p>
+        </li>
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="13.5" r="4.5"/><path d="M7.5 6.5h.01M11 6.5h5"/></svg></div>
+          <h3>Bersih maksimal</h3>
+          <p>Dicuci dengan mesin modern agar noda dan bau hilang.</p>
+        </li>
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg></div>
+          <h3>Wangi tahan lama</h3>
+          <p>Pewangi berkualitas, harumnya awet sampai pakaian dipakai.</p>
+        </li>
+        <li>
+          <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3L3 6l2.5 4L8 9v12h8V9l2.5 1L21 6l-5-3c-.6 1.6-2 2.5-4 2.5S8.6 4.6 8 3z"/></svg></div>
+          <h3>Rapi dan terawat</h3>
+          <p>Dilipat rapi dan ditangani dengan hati-hati.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="layanan" style="padding-top:8px">
+    <div class="wrap">
+      <div class="head">
+        <h2>Layanan dan harga</h2>
+        <p>Cucian kiloan dihitung per kilogram. Selimut dan bedcover dihitung per buah.</p>
+      </div>
+      <div class="panel svc" id="svc-list"></div>
+    </div>
+  </section>
+
+  <section class="band" id="cara" style="padding-top:8px">
+    <div class="wrap">
+      <div class="head">
+        <h2>Cara kerjanya</h2>
+        <p>Dari chat pertama sampai cucian kembali ke rumah Anda.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Hubungi kami</h3><p>Chat lewat WhatsApp atau isi form pesan di bawah.</p></li>
+        <li><h3>Kami jemput</h3><p>Kurir datang ke depan rumah dan menimbang cucian.</p></li>
+        <li><h3>Dicuci dan dirapikan</h3><p>Dicuci, dikeringkan, diberi pewangi, lalu dilipat rapi.</p></li>
+        <li><h3>Kami antar kembali</h3><p>Cucian bersih sampai di rumah, siap masuk lemari.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="pesan-jemput" style="padding-top:8px">
+    <div class="wrap">
+      <div class="head">
+        <h2>Pesan jemput cucian</h2>
+        <p>Isi data singkat, pesan akan terisi otomatis di WhatsApp. Kami konfirmasi di sana.</p>
+      </div>
+      <div class="order">
+        <form class="panel form" id="pesan" novalidate>
+          <div class="field">
+            <label for="nama">Nama</label>
+            <input id="nama" name="nama" type="text" autocomplete="name" placeholder="Nama Anda">
+          </div>
+          <div class="field">
+            <label for="alamat">Alamat jemput</label>
+            <textarea id="alamat" name="alamat" autocomplete="street-address" placeholder="Jalan, nomor rumah, patokan"></textarea>
+          </div>
+          <div class="field">
+            <label for="layanan-pilih">Layanan</label>
+            <select id="layanan-pilih" name="layanan"></select>
+          </div>
+          <div class="field">
+            <label for="catatan">Catatan (boleh kosong)</label>
+            <input id="catatan" name="catatan" type="text" placeholder="Misalnya: jemput sore, pakaian putih dipisah">
+          </div>
+          <p class="err" id="pesan-err" role="alert" hidden></p>
+          <a class="btn btn-wa" id="kirim" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>
+            Lanjut ke WhatsApp
+          </a>
+          <p class="hint">Tombol ini membuka WhatsApp dengan pesan yang sudah terisi. Pesan baru terkirim setelah Anda menekan kirim di sana.</p>
+        </form>
+
+        <aside class="info" aria-label="Kontak dan lokasi">
+          <dl>
+            <div>
+              <dt>WhatsApp dan telepon</dt>
+              <dd class="num" id="nomor">0822-3990-3088</dd>
+            </div>
+            <div>
+              <dt>Alamat</dt>
+              <dd id="info-alamat">Jl. KH. Dewantara</dd>
+            </div>
+            <div>
+              <dt>Jam buka</dt>
+              <dd id="info-jam"></dd>
+            </div>
+            <div>
+              <dt>Area antar jemput</dt>
+              <dd id="info-area"></dd>
+            </div>
+          </dl>
+          <button type="button" class="btn btn-small copy" id="copy">Salin nomor</button>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Andha Laundry. Rapi, bersih, wangi.</div>
+</footer>
+
+<a class="btn btn-wa float" id="float-wa" href="#" target="_blank" rel="noopener" aria-label="Chat WhatsApp Andha Laundry">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>
+  Chat WhatsApp
+</a>
+
+<script>
+/* ===== Data yang perlu diisi pemilik. Isi price (angka rupiah) dan INFO; null = tampil "Tanya harga". ===== */
+var WA_NUMBER = '6282239903088';
+var SERVICES = [
+  { id: 'cuci-setrika', name: 'Cuci + setrika kiloan', note: 'Dicuci, dikeringkan, disetrika, dilipat rapi.', unit: 'kg', price: null },
+  { id: 'cuci-lipat',   name: 'Cuci kering lipat',     note: 'Tanpa setrika, tetap harum dan rapi.',          unit: 'kg', price: null },
+  { id: 'setrika',      name: 'Setrika saja',          note: 'Untuk pakaian yang sudah bersih.',              unit: 'kg', price: null },
+  { id: 'express',      name: 'Cuci express',          note: 'Pengerjaan diprioritaskan, tanya estimasi.',    unit: 'kg', price: null },
+  { id: 'bedcover',     name: 'Selimut dan bedcover',  note: 'Dihitung per buah.',                            unit: 'buah', price: null }
+];
+var INFO = {
+  jam: null,   /* contoh: 'Setiap hari, 08.00 - 20.00' */
+  area: null   /* contoh: 'Radius 5 km dari toko' */
+};
+
+function waLink(text) { return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text); }
+function $(id) { return document.getElementById(id); }
+
+var hello = 'Halo Andha Laundry, saya mau tanya soal layanan laundry.';
+['hero-wa', 'float-wa'].forEach(function (id) { $(id).href = waLink(hello); });
+
+/* daftar layanan */
+var list = $('svc-list');
+var select = $('layanan-pilih');
+var first = document.createElement('option');
+first.value = ''; first.textContent = 'Pilih layanan'; select.appendChild(first);
+SERVICES.forEach(function (s) {
+  var row = document.createElement('div');
+  row.className = 'row';
+  var left = document.createElement('div');
+  left.innerHTML = '<h3></h3><p></p>';
+  left.querySelector('h3').textContent = s.name;
+  left.querySelector('p').textContent = s.note;
+  var right;
+  if (typeof s.price === 'number') {
+    right = document.createElement('div');
+    right.className = 'price';
+    right.innerHTML = 'Rp ' + s.price.toLocaleString('id-ID') + ' <small>/ ' + s.unit + '</small>';
+  } else {
+    right = document.createElement('a');
+    right.className = 'ask';
+    right.href = waLink('Halo Andha Laundry, berapa harga ' + s.name.toLowerCase() + '?');
+    right.target = '_blank'; right.rel = 'noopener';
+    right.textContent = 'Tanya harga';
+  }
+  row.appendChild(left); row.appendChild(right); list.appendChild(row);
+  var opt = document.createElement('option');
+  opt.value = s.name; opt.textContent = s.name; select.appendChild(opt);
+});
+
+/* info lokasi */
+$('info-jam').textContent = INFO.jam || 'Tanyakan lewat WhatsApp';
+$('info-area').textContent = INFO.area || 'Tanyakan lewat WhatsApp';
+
+/* form pesan */
+var nama = $('nama'), alamat = $('alamat'), catatan = $('catatan'), kirim = $('kirim'), err = $('pesan-err');
+function compose() {
+  var t = 'Halo Andha Laundry, saya mau pesan antar jemput cucian.\n';
+  t += 'Nama: ' + nama.value.trim() + '\n';
+  t += 'Alamat jemput: ' + alamat.value.trim() + '\n';
+  if (select.value) t += 'Layanan: ' + select.value + '\n';
+  if (catatan.value.trim()) t += 'Catatan: ' + catatan.value.trim() + '\n';
+  return t.trim();
+}
+function update() { kirim.href = waLink(compose()); }
+[nama, alamat, select, catatan].forEach(function (el) { el.addEventListener('input', update); el.addEventListener('change', update); });
+update();
+$('pesan').addEventListener('submit', function (e) { e.preventDefault(); });
+kirim.addEventListener('click', function (e) {
+  var missing = !nama.value.trim() ? nama : (!alamat.value.trim() ? alamat : null);
+  if (missing) {
+    e.preventDefault();
+    err.textContent = missing === nama ? 'Isi nama Anda dulu.' : 'Isi alamat jemput dulu.';
+    err.hidden = false;
+    missing.focus();
+  } else {
+    err.hidden = true;
+  }
+});
+
+/* salin nomor */
+var copyBtn = $('copy');
+copyBtn.addEventListener('click', function () {
+  var done = function (txt) { copyBtn.textContent = txt; setTimeout(function () { copyBtn.textContent = 'Salin nomor'; }, 1800); };
+  var fallback = function () {
+    try {
+      var r = document.createRange(); r.selectNodeContents($('nomor'));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    } catch (e) {}
+    done('Nomor terpilih, salin manual');
+  };
+  try {
+    navigator.clipboard.writeText('082239903088').then(function () { done('Tersalin'); }, fallback);
+  } catch (e) { fallback(); }
+});
+/* ===== Gelembung di hero: melayang, menjauh dari kursor, pecah kalau disentuh ===== */
+(function () {
+  var cv = $('bubbles'), hero = cv.parentNode, g = cv.getContext('2d');
+  if (!g) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TAU = Math.PI * 2, W = 0, H = 0, bubbles = [], drops = [], ptr = { x: -999, y: -999 };
+  var running = false, onscreen = true, last = 0, t = 0, want = 14;
+  var tip = $('tip');
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function make(anywhere, x, y, small) {
+    var r = small ? rnd(5, 11) : rnd(9, 34);
+    var b = {
+      r: r, bx: x != null ? x : rnd(0, W), y: y != null ? y : (anywhere ? rnd(0, H) : H + r + rnd(0, 80)),
+      vy: small ? rnd(26, 44) : rnd(10, 26) * (1.2 - r / 60), ph: rnd(0, TAU), sw: rnd(4, 10), ox: 0, extra: !!small
+    };
+    b.x = b.bx;
+    return b;
+  }
+  function fit() {
+    var rc = hero.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = rc.width; H = rc.height;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    want = W < 600 ? 9 : 15;
+    var n = bubbles.filter(function (b) { return !b.extra; }).length;
+    for (; n < want; n++) bubbles.push(make(true));
+    bubbles.forEach(function (b) { if (b.bx > W) b.bx = rnd(0, W); });
+    if (!running) draw();
+  }
+  function update(dt) {
+    t += dt;
+    for (var i = bubbles.length - 1; i >= 0; i--) {
+      var b = bubbles[i];
+      b.y -= b.vy * dt;
+      var dx = b.x - ptr.x, dy = b.y - ptr.y, d = Math.sqrt(dx * dx + dy * dy) || 1, reach = b.r + 70;
+      if (d < reach) b.ox += (dx / d) * (reach - d) * 1.2 * dt;
+      b.ox *= Math.max(0, 1 - 1.6 * dt);
+      b.x = b.bx + Math.sin(t * 0.9 + b.ph) * b.sw + b.ox;
+      if (b.y < -b.r - 4) {
+        if (b.extra) { bubbles.splice(i, 1); }
+        else { b.y = H + b.r + rnd(0, 60); b.bx = rnd(0, W); b.ox = 0; }
+      }
+    }
+    for (var k = drops.length - 1; k >= 0; k--) {
+      var p = drops[k];
+      p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 20 * dt; p.life -= dt;
+      if (p.life <= 0) drops.splice(k, 1);
+    }
+  }
+  function draw() {
+    g.clearRect(0, 0, W, H);
+    bubbles.forEach(function (b) {
+      var gr = g.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.35, b.r * 0.1, b.x, b.y, b.r);
+      gr.addColorStop(0, 'rgba(255,255,255,.05)');
+      gr.addColorStop(0.72, 'rgba(255,255,255,.1)');
+      gr.addColorStop(1, 'rgba(255,255,255,.34)');
+      g.beginPath(); g.arc(b.x, b.y, b.r, 0, TAU); g.fillStyle = gr; g.fill();
+      g.lineWidth = 1.3; g.strokeStyle = 'rgba(255,255,255,.65)'; g.stroke();
+      g.beginPath(); g.arc(b.x - b.r * 0.4, b.y - b.r * 0.4, Math.max(1.5, b.r * 0.14), 0, TAU);
+      g.fillStyle = 'rgba(255,255,255,.8)'; g.fill();
+    });
+    drops.forEach(function (p) {
+      g.globalAlpha = Math.max(0, p.life / p.max) * 0.7;
+      g.beginPath(); g.arc(p.x, p.y, p.s, 0, TAU); g.fillStyle = '#fff'; g.fill();
+    });
+    g.globalAlpha = 1;
+  }
+  function frame(ts) {
+    if (!running) return;
+    var dt = Math.min(0.05, (ts - last) / 1000 || 0.016);
+    last = ts; update(dt); draw();
+    requestAnimationFrame(frame);
+  }
+  function start() {
+    if (reduce || running || !onscreen || document.hidden) return;
+    running = true; last = performance.now(); requestAnimationFrame(frame);
+  }
+  function stop() { running = false; }
+
+  function local(e) { var rc = hero.getBoundingClientRect(); return { x: e.clientX - rc.left, y: e.clientY - rc.top }; }
+  function pop(i) {
+    var b = bubbles[i];
+    if (!reduce) {
+      for (var k = 0; k < 6; k++) {
+        var a = TAU * k / 6 + rnd(-0.4, 0.4), sp = rnd(25, 60);
+        drops.push({ x: b.x, y: b.y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, s: rnd(1.2, 2.4), life: 0.9, max: 0.9 });
+      }
+    }
+    bubbles.splice(i, 1);
+    if (!b.extra) { var nb = make(false); if (reduce) nb.y = rnd(0, H); bubbles.push(nb); }
+    if (reduce) draw();
+    if (tip) tip.classList.add('gone');
+  }
+  hero.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch') ptr = local(e); });
+  hero.addEventListener('pointerleave', function () { ptr = { x: -999, y: -999 }; });
+  hero.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('a,button')) return;
+    var p = local(e), hit = -1;
+    for (var i = bubbles.length - 1; i >= 0; i--) {
+      var dx = bubbles[i].x - p.x, dy = bubbles[i].y - p.y, rr = bubbles[i].r + 8;
+      if (dx * dx + dy * dy <= rr * rr) { hit = i; break; }
+    }
+    if (hit >= 0) { pop(hit); return; }
+    if (reduce) return;
+    var extras = bubbles.filter(function (b) { return b.extra; }).length;
+    for (var n = 0; n < 3 && extras + n < 24; n++) bubbles.push(make(false, p.x + rnd(-20, 20), p.y + rnd(-10, 10), true));
+  });
+
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { onscreen = en[0].isIntersecting; if (onscreen) start(); else stop(); }).observe(hero);
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(hero);
+  else window.addEventListener('resize', fit);
+  fit(); start();
+})();
+
+/* ===== Garis air di bawah header ikut turun saat halaman digulir ===== */
+(function () {
+  var bar = $('prog'), queued = false;
+  function set() {
+    queued = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0) + ')';
+  }
+  window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(set); } }, { passive: true });
+  set();
+})();
+</script>
